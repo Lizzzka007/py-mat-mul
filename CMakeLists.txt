@@ -22,10 +22,10 @@ if(INCLUDE_CUDA)
     add_definitions(-DENABLE_GPU_COMPUTATIONS)
 endif(INCLUDE_CUDA)
 
-add_subdirectory(src/matrix)
+add_subdirectory(matrix)
 include_directories(include)
-include_directories(src/matrix/include)
-include_directories(src/matrix/memory_processing/include)
+include_directories(matrix/include)
+include_directories(matrix/memory_processing/include)
 
 set(SOURCES_CXX 
     src/matrix_lib.cpp
