@@ -1,5 +1,4 @@
 #include "matrix.h"
-#include "stdio.h"
 
 #define threads_y 32
 #define threads_x 16

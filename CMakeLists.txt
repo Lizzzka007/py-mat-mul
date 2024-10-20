@@ -6,7 +6,6 @@ option(INCLUDE_CUDA "GPU build in mode" OFF)
 enable_language(CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(PYBIND11_FINDPYTHON ON)
-# find_package(Python3 3.12 COMPONENTS Interpreter Development EXACT)
 find_package(pybind11 REQUIRED)
 
 if(INCLUDE_CUDA)

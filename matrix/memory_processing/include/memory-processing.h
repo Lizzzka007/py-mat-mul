@@ -25,9 +25,4 @@ namespace memproc
 
     template <MemType dst_memtype, MemType src_memtype>
     bool memcopy(void *dst, const void* src, const size_t copy_elem_size);
-
-    // template <MemType dst_memtype, MemType src_memtype>
-    // bool memcopy(void *dst, const void* src, const size_t elem_stride, 
-    //             const int stride_row, const int stride_col,
-    //             const int nrow, const int ncol);
 }

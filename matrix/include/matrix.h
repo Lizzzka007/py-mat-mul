@@ -6,7 +6,6 @@ template <typename T, MemType dev>
 class matrix_base
 {
 public:
-    // int stride_row, stride_col;
     int nrow, ncol;
     size_t allocated_size;
     T *ptr;
@@ -25,16 +24,12 @@ public:
     size_t get_size() const;
     const T* get_ptr() const;
     matrix_base<T, dev>& operator=(const matrix_base<T, dev>& other);
-
-    // void print_array() const;
 };
 
 template <typename T, MemType dev>
 class matrix: public matrix_base<T, dev>
 {
 private:
-    // using matrix_base<T, dev>::stride_row;
-    // using matrix_base<T, dev>::stride_col;
     using matrix_base<T, dev>::nrow;
     using matrix_base<T, dev>::ncol;
     using matrix_base<T, dev>::allocated_size;
@@ -52,8 +47,6 @@ template <typename T>
 class matrix<T, MemType::GPU>: public matrix_base<T, MemType::GPU>
 {
 private:
-    // using matrix_base<T, MemType::GPU>::stride_row;
-    // using matrix_base<T, MemType::GPU>::stride_col;
     using matrix_base<T, MemType::GPU>::nrow;
     using matrix_base<T, MemType::GPU>::ncol;
     using matrix_base<T, MemType::GPU>::allocated_size;

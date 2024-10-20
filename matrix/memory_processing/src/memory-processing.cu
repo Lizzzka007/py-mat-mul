@@ -7,22 +7,6 @@
 
 namespace memproc
 {
-    // namespace memproc_kernel
-    // {
-    //     void __global__ memcopy(char *dst, const char* src, const size_t elem_stride,  
-    //         const int stride_row, const int stride_col,
-    //         const int nrow, const int ncol)
-    //     {
-    //         const int i = blockIdx.y * blockDim.y + threadIdx.y;
-    //         const int j = blockIdx.x * blockDim.x + threadIdx.x;
-
-    //         if(i < nrow && j < ncol)
-    //         {
-    //             *(dst + (i * stride_col + j) * elem_stride) = *(src + (i * ncol + j) * elem_stride);
-    //         }
-    //     }
-    // }
-
     template<>
     bool dealloc<MemType::GPU>(void *&array, size_t &allocated_size)
     {
@@ -98,61 +82,4 @@ namespace memproc
 
         return grid_blocks;
     }
-
-    // template <>
-    // bool memcopy<MemType::GPU, MemType::GPU>(void *dst, const void* src, const size_t elem_stride, 
-    //             const int stride_row, const int stride_col,
-    //             const int nrow, const int ncol)
-    // {
-    //     if(stride_row * stride_col * nrow * ncol * elem_stride == 0) return true;
-
-    //     char* ch_dst = static_cast<char*>(dst); 
-    //     const char* ch_src = static_cast<const char*>(src); 
-
-    //     dim3 block_threads(threads_y, threads_x);
-    //     dim3 grid_blocks = get_cuda_grid(nrow, ncol);
-    //     memproc_kernel::memcopy<<<grid_blocks, block_threads>>> (ch_dst, ch_src, elem_stride,
-    //         stride_row, stride_col,
-    //         nrow, ncol);
-        
-    //     return true;
-    // }
-
-    // template <>
-    // bool memcopy<MemType::CPU, MemType::GPU>(void *dst, const void* src, const size_t elem_stride, 
-    //             const int stride_row, const int stride_col,
-    //             const int nrow, const int ncol)
-    // {
-    //     if(stride_row * stride_col * nrow * ncol * elem_stride == 0) return true;
-
-    //     void * src_cpu;
-    //     const size_t copy_elem_size = nrow * ncol * elem_stride;
-    //     alloc<MemType::CPU>((void *&)src_cpu, copy_elem_size);
-    //     memcopy<MemType::CPU, MemType::GPU>(src_cpu, src, copy_elem_size);
-    //     memcopy<MemType::CPU, MemType::CPU>(dst, src_cpu, elem_stride, 
-    //         stride_row, stride_col,
-    //         nrow, ncol);
-    //     dealloc<MemType::CPU>(src_cpu);
-        
-    //     return true;
-    // }
-
-    // template <>
-    // bool memcopy<MemType::GPU, MemType::CPU>(void *dst, const void* src, const size_t elem_stride, 
-    //             const int stride_row, const int stride_col,
-    //             const int nrow, const int ncol)
-    // {
-    //     if(stride_row * stride_col * nrow * ncol * elem_stride == 0) return true;
-
-    //     void * src_cpu;
-    //     const size_t copy_elem_size = nrow * ncol * elem_stride;
-    //     alloc<MemType::GPU>((void *&)src_cpu, copy_elem_size);
-    //     memcopy<MemType::GPU, MemType::CPU>(src_cpu, src, copy_elem_size);
-    //     memcopy<MemType::GPU, MemType::GPU>(dst, src_cpu, elem_stride, 
-    //         stride_row, stride_col,
-    //         nrow, ncol);
-    //     dealloc<MemType::GPU>(src_cpu);
-        
-    //     return true;
-    // }
 }

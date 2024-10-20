@@ -3,8 +3,8 @@
 template <typename T, MemType dev_run>
 void matrix_lib::mat_mul( pyobj_info& info_A, pyobj_info& info_B, T*& Res_ptr )
 {
-    matrix<T, dev_run> A_mat;
-    matrix<T, dev_run> B_mat;
+    static matrix<T, dev_run> A_mat;
+    static matrix<T, dev_run> B_mat;
 
     T* A_ptr = static_cast<T*>(info_A.ptr);
     T* B_ptr = static_cast<T*>(info_B.ptr);
@@ -25,7 +25,6 @@ void matrix_lib::mat_mul( pyobj_info& info_A, pyobj_info& info_B, T*& Res_ptr )
 
     matrix<T, dev_run> Res_mat = A_mat * B_mat;
     T* Res_mat_ptr = Res_mat.get_ptr();
-    // memproc::alloc<MemType::CPU>((void*&)Res_ptr, Res_mat.get_size());
     memproc::memcopy<MemType::CPU, dev_run>(Res_ptr, Res_mat_ptr, Res_mat.get_size());
 }
 

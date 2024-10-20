@@ -1,12 +1,9 @@
-#include <iostream>
 #include "matrix.h"
 
 template <typename T, MemType dev>
 matrix_base<T, dev>::matrix_base()
 {
     allocated_size = 0;
-    // stride_row = 0;
-    // stride_col = 0;
     nrow = 0;
     ncol = 0;
     ptr = nullptr;
@@ -18,8 +15,6 @@ void matrix_base<T, dev>::set_array(T* array, const int nrow_in, const int ncol_
 {
     if (mem_in != dev)
     {
-        // stride_row = stride_row > nrow_in ? stride_row : nrow_in;
-        // stride_col = stride_col > ncol_in ? stride_col : ncol_in;
         nrow = nrow_in;
         ncol = ncol_in;
         const size_t new_size = nrow_in * ncol_in * sizeof(T);
@@ -29,8 +24,6 @@ void matrix_base<T, dev>::set_array(T* array, const int nrow_in, const int ncol_
     }
     else
     {
-        // stride_row = nrow_in;
-        // stride_col = ncol_in;
         nrow = nrow_in;
         ncol = ncol_in;
         allocated_size = 0;
@@ -42,8 +35,6 @@ template <typename T, MemType dev>
 matrix_base<T, dev>::matrix_base(const int nrow_in, const int ncol_in)
 {
     allocated_size = 0;
-    // stride_row = nrow_in;
-    // stride_col = ncol_in;
     nrow = nrow_in;
     ncol = ncol_in;
     const size_t new_size = nrow*ncol*sizeof(T);
@@ -84,13 +75,10 @@ void matrix_base<T, dev>::allocate(const size_t size)
 template <typename T, MemType dev>
 matrix_base<T, dev>& matrix_base<T, dev>::operator=(const matrix_base<T, dev>& other)
 {
-    // Guard self assignment
     if (this == &other)
         return *this;
  
     memproc::realloc<dev>((void *&)ptr, allocated_size, other.allocated_size);
-    // stride_row = other.stride_row;
-    // stride_col = other.stride_col;
     nrow = other.nrow;
     ncol = other.ncol;
 
@@ -98,35 +86,6 @@ matrix_base<T, dev>& matrix_base<T, dev>::operator=(const matrix_base<T, dev>& o
 
     return *this;
 }
-
-// template <typename T, MemType dev>
-// void matrix_base<T, dev>::print_array() const
-// {
-//     T* arr = ptr;
-// #ifdef ENABLE_GPU_COMPUTATIONS
-//     if (dev == MemType::GPU)
-//     {
-//         memproc::alloc<MemType::CPU>((void *&)arr, allocated_size);
-//         memproc::memcopy<MemType::CPU, MemType::GPU>(arr, ptr, allocated_size);
-//     }
-// #endif
-//     for (int i = 0; i < nrow; i++)
-//     {
-//         for (int j = 0; j < ncol; j++)
-//         {
-//             printf("%.2f ", arr[i*ncol + j]);
-//             // std::cout << arr[i*ncol + j] << " ";
-//         }
-//         printf("\n");
-//         // std::cout << std::endl;
-//     }
-// #ifdef ENABLE_GPU_COMPUTATIONS
-//     if (dev == MemType::GPU)
-//     {
-//         memproc::dealloc<MemType::CPU>((void *&)arr);
-//     }
-// #endif 
-// }
 
 template <typename T, MemType dev>
 std::tuple<int, int> matrix_base<T, dev>::get_dims() const
