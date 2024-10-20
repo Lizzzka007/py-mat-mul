@@ -5,12 +5,10 @@ Used packages:
 
 CMake is used to build and compile the module.
 To specify python, set the `Python_ROOT_DIR` option equal to the path where python is located:
-@bash
 ```
 cmake -DPython_ROOT_DIR=</path/to/python> ..
 ```
 To enable GPU computations with CUDA C options `INCLUDE_CUDA` and `CMAKE_CUDA_ARCHITECTURES` should be set:
-@bash
 ```
 cmake -DINCLUDE_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=<N>..
 ```
