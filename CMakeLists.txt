@@ -22,16 +22,17 @@ if(INCLUDE_CUDA)
     add_definitions(-DENABLE_GPU_COMPUTATIONS)
 endif(INCLUDE_CUDA)
 
-add_subdirectory(matrix)
-include_directories(matrix/include)
-include_directories(matrix/memory_processing/include)
+add_subdirectory(src/matrix)
+include_directories(include)
+include_directories(src/matrix/include)
+include_directories(src/matrix/memory_processing/include)
 
 set(SOURCES_CXX 
-    matrix_lib.cpp
-    matrix_py_lib.cpp
+    src/matrix_lib.cpp
+    src/matrix_py_lib.cpp
     )
 set(HEADERS_CXX 
-    matrix_lib.h
+    include/matrix_lib.h
     )
 
 set(SOURCES ${SOURCES_CU} ${SOURCES_CXX})
@@ -48,7 +49,7 @@ if(INCLUDE_CUDA)
     )
 endif(INCLUDE_CUDA)
 
-target_link_libraries(py_mat_mul PUBLIC matrix memproc)
+target_link_libraries(py_mat_mul PUBLIC matrix)
 set_target_properties(py_mat_mul PROPERTIES
     PREFIX "" 
     SUFFIX ".so" 
@@ -79,9 +80,9 @@ endif(INCLUDE_CUDA)
 
 add_custom_command(
     OUTPUT ${OUTPUT_TEST_CONFIG}
-    COMMAND ${CMAKE_COMMAND} -D GPU_COMPILATION_MODE=${GPU_COMPILATION_MODE} -P ${CMAKE_CURRENT_SOURCE_DIR}/generate_pytest_config.cmake
+    COMMAND ${CMAKE_COMMAND} -D GPU_COMPILATION_MODE=${GPU_COMPILATION_MODE} -P ${CMAKE_CURRENT_SOURCE_DIR}/generate_tests_config.cmake
     DEPENDS ${INPUT_TEST_CONFIG}
-    COMMENT "Configuring config.py"
+    COMMENT "Configuring test-config.py"
 )
 
 add_custom_target(generate_config ALL DEPENDS ${OUTPUT_TEST_CONFIG})
