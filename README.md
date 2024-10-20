@@ -14,4 +14,4 @@ cmake -DINCLUDE_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=<N>..
 ```
 where `CMAKE_CUDA_ARCHITECTURES` corresponds to the GPU architecture.
 
-The project also includes unit tests (./tests/test_invalid_args.py) and perfomance tests compared to the numpy matrix multiplication implementation (./tests/perfomance.py). Tests are specified while building, and located at `${CMAKE_CURRENT_BINARY_DIR}/tests/` 
+The project also includes unit tests (./tests/test_invalid_args.py) and tests of the perfomance comparison between current library and the numpy matrix multiplication implementation (./tests/perfomance.py). Tests are specified while building, and located at `${CMAKE_CURRENT_BINARY_DIR}/tests/` 
