@@ -12,6 +12,6 @@ To enable GPU computations options `INCLUDE_CUDA` and `CMAKE_CUDA_ARCHITECTURES`
 ```
 cmake -DINCLUDE_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=<N>..
 ```
-where `CMAKE_CUDA_ARCHITECTURES` corresponds to GPU architecture.
+where `CMAKE_CUDA_ARCHITECTURES` corresponds to the GPU architecture.
 
 The project also includes unit tests (./tests/test_invalid_args.py) and perfomance tests compared to the numpy matrix multiplication implementation (./tests/perfomance.py). Tests are specified while building, and located at `${CMAKE_CURRENT_BINARY_DIR}/tests/` 
