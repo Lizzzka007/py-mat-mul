@@ -1,8 +1,7 @@
 # Build
 Used packages:
   - pybind11 library (for the C++ implementtaion of python module )
-  - numpy for tests
-  - timeit for tests
+  - numpy, timeit, pytest for tests
 
 CMake (minimum version is 3.19) is used to build and compile the module.
 To specify python, set the `Python_ROOT_DIR` option equal to the path where python is located:
