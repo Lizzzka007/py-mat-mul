@@ -26,7 +26,7 @@ public:
     const T* get_ptr() const;
     matrix_base<T, dev>& operator=(const matrix_base<T, dev>& other);
 
-    void print_array() const;
+    // void print_array() const;
 };
 
 template <typename T, MemType dev>

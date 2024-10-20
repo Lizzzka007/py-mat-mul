@@ -99,42 +99,33 @@ matrix_base<T, dev>& matrix_base<T, dev>::operator=(const matrix_base<T, dev>& o
     return *this;
 }
 
-template <typename T, MemType dev>
-void matrix_base<T, dev>::print_array() const
-{
-    T* arr = ptr;
-#ifdef ENABLE_GPU_COMPUTATIONS
-    if (dev == MemType::GPU)
-    {
-        memproc::alloc<MemType::CPU>((void *&)arr, allocated_size);
-        memproc::memcopy<MemType::CPU, MemType::GPU>(arr, ptr, allocated_size);
-    }
-#endif
-    for (int i = 0; i < nrow; i++)
-    {
-        for (int j = 0; j < ncol; j++)
-        {
-            printf("%.2f ", arr[i*ncol + j]);
-            // std::cout << arr[i*ncol + j] << " ";
-        }
-        printf("\n");
-        // std::cout << std::endl;
-    }
-#ifdef ENABLE_GPU_COMPUTATIONS
-    if (dev == MemType::GPU)
-    {
-        memproc::dealloc<MemType::CPU>((void *&)arr);
-    }
-#endif 
-}
-
 // template <typename T, MemType dev>
-// void matrix_base<T, dev>::set_array(const T *array, const int nrow_in, const int ncol_in)
+// void matrix_base<T, dev>::print_array() const
 // {
-//     nrow = nrow_in;
-//     ncol = ncol_in;
-
-//     ptr = const_cast<T*> array;
+//     T* arr = ptr;
+// #ifdef ENABLE_GPU_COMPUTATIONS
+//     if (dev == MemType::GPU)
+//     {
+//         memproc::alloc<MemType::CPU>((void *&)arr, allocated_size);
+//         memproc::memcopy<MemType::CPU, MemType::GPU>(arr, ptr, allocated_size);
+//     }
+// #endif
+//     for (int i = 0; i < nrow; i++)
+//     {
+//         for (int j = 0; j < ncol; j++)
+//         {
+//             printf("%.2f ", arr[i*ncol + j]);
+//             // std::cout << arr[i*ncol + j] << " ";
+//         }
+//         printf("\n");
+//         // std::cout << std::endl;
+//     }
+// #ifdef ENABLE_GPU_COMPUTATIONS
+//     if (dev == MemType::GPU)
+//     {
+//         memproc::dealloc<MemType::CPU>((void *&)arr);
+//     }
+// #endif 
 // }
 
 template <typename T, MemType dev>
