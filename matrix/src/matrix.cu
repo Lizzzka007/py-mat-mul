@@ -1,7 +1,7 @@
 #include "matrix.h"
 
 #define threads_y 32
-#define threads_x 16
+#define threads_x 32
 
 // TODO: improve computations speed
 template <typename T>
