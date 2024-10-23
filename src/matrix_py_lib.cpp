@@ -109,7 +109,7 @@ py::object mat_mul( py::object A_obj, py::object B_obj, const int useGpu)
             matrix_lib::mat_mul<int, MemType::CPU>(A_info, B_info, ptr);
         }
         
-        Res_obj = (py::object)py_array_result;
+        Res_obj = py::cast<py::object>(py_array_result);
     }
     else if (A_info.format == py::format_descriptor<float>::format())
     {
@@ -129,7 +129,7 @@ py::object mat_mul( py::object A_obj, py::object B_obj, const int useGpu)
             matrix_lib::mat_mul<float, MemType::CPU>(A_info, B_info, ptr);
         }
 
-        Res_obj = (py::object)py_array_result;
+        Res_obj = py::cast<py::object>(py_array_result);
     }
     else if (A_info.format == py::format_descriptor<double>::format())
     {
@@ -149,7 +149,7 @@ py::object mat_mul( py::object A_obj, py::object B_obj, const int useGpu)
             matrix_lib::mat_mul<double, MemType::CPU>(A_info, B_info, ptr);
         }
 
-        Res_obj = (py::object)py_array_result;
+        Res_obj = py::cast<py::object>(py_array_result);
     }
     else
     {
