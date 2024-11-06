@@ -49,7 +49,6 @@ matrix_base<T, dev>::matrix_base(const int nrow_in, const int ncol_in)
 template <typename T, MemType dev>
 matrix_base<T, dev>::~matrix_base()
 {
-    // memproc::dealloc<dev>((void *&)ptr, allocated_size);
     buf.free_memory();
 }
 
@@ -77,7 +76,6 @@ void matrix_base<T, dev>::allocate(const size_t size)
     buf.get_memory(size);
     allocated_size = size;
     ptr = static_cast<T*>(buf.ptr());
-    // memproc::realloc<dev>((void *&)ptr, allocated_size, size);
 }
 
 template <typename T, MemType dev>
