@@ -27,7 +27,7 @@ void process_object(const py::object object, matrix_lib::pyobj_info& info)
     }
     else 
     {
-        throw std::invalid_argument("Objects representing matrices must support the buffer protocol.");
+        throw std::invalid_argument("Objects representing matrices must be numpy arrays.");
     }
 }
 
@@ -162,5 +162,5 @@ py::object mat_mul( py::object A_obj, py::object B_obj, const int useGpu)
 
 PYBIND11_MODULE(py_mat_mul, pmm) {
     pmm.doc() = "C++ module for matrix multiplication"; 
-    pmm.def("mat_mul", &mat_mul, "A function that implements matrix multiplication of 2D py objects supporting the buffer protocol ");
+    pmm.def("mat_mul", &mat_mul, "A function that implements matrix multiplication of 2D numpy objects ");
 }
