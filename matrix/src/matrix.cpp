@@ -1,4 +1,9 @@
 #include "matrix.h"
+#include "MemoryProcessing.h"
+
+#ifdef ENABLE_OPENMP_COMPUTATIONS
+#include <omp.h>
+#endif
 
 template <typename T, MemType dev>
 matrix_base<T, dev>::matrix_base()
@@ -6,7 +11,7 @@ matrix_base<T, dev>::matrix_base()
     allocated_size = 0;
     nrow = 0;
     ncol = 0;
-    ptr = nullptr;
+    buf = memBuf<dev>();
 }
 
 template <typename T, MemType dev>
@@ -17,10 +22,10 @@ void matrix_base<T, dev>::set_array(T* array, const int nrow_in, const int ncol_
     {
         nrow = nrow_in;
         ncol = ncol_in;
-        const size_t new_size = nrow_in * ncol_in * sizeof(T);
-
-        memproc::realloc<dev>((void *&)ptr, allocated_size, new_size);  
-        memproc::memcopy<dev, mem_in>(ptr, array, new_size);           
+        allocated_size = nrow_in * ncol_in * sizeof(T);  
+        buf.get_memory(allocated_size);
+        ptr = static_cast<T*>(buf.ptr());
+        memproc::memcopy<dev, mem_in>(ptr, array, allocated_size);           
     }
     else
     {
@@ -34,42 +39,45 @@ void matrix_base<T, dev>::set_array(T* array, const int nrow_in, const int ncol_
 template <typename T, MemType dev>
 matrix_base<T, dev>::matrix_base(const int nrow_in, const int ncol_in)
 {
-    allocated_size = 0;
     nrow = nrow_in;
     ncol = ncol_in;
-    const size_t new_size = nrow*ncol*sizeof(T);
-
-    memproc::realloc<dev>((void *&)ptr, allocated_size, new_size);
+    allocated_size = nrow*ncol*sizeof(T);
+    buf.get_memory(allocated_size);
+    ptr = static_cast<T*>(buf.ptr());
 }
 
 template <typename T, MemType dev>
 matrix_base<T, dev>::~matrix_base()
 {
-    memproc::dealloc<dev>((void *&)ptr, allocated_size);
+    // memproc::dealloc<dev>((void *&)ptr, allocated_size);
+    buf.free_memory();
 }
 
 template <typename T, MemType dev>
 T* matrix_base<T, dev>::get_ptr()
 {
-    return this->ptr;
+    return ptr;
 }
 
 template <typename T, MemType dev>
 const T* matrix_base<T, dev>::get_ptr() const
 {
-    return this->ptr;
+    return ptr;
 }
 
 template <typename T, MemType dev>
 size_t matrix_base<T, dev>::get_size() const
 {
-    return this->allocated_size;
+    return allocated_size;
 }
 
 template <typename T, MemType dev>
 void matrix_base<T, dev>::allocate(const size_t size)
 {
-    memproc::realloc<dev>((void *&)ptr, allocated_size, size);
+    buf.get_memory(size);
+    allocated_size = size;
+    ptr = static_cast<T*>(buf.ptr());
+    // memproc::realloc<dev>((void *&)ptr, allocated_size, size);
 }
 
 template <typename T, MemType dev>
@@ -78,7 +86,9 @@ matrix_base<T, dev>& matrix_base<T, dev>::operator=(const matrix_base<T, dev>& o
     if (this == &other)
         return *this;
  
-    memproc::realloc<dev>((void *&)ptr, allocated_size, other.allocated_size);
+    buf.get_memory(other.allocated_size);
+    ptr = static_cast<T*>(buf.ptr());
+    allocated_size = other.allocated_size;
     nrow = other.nrow;
     ncol = other.ncol;
 
@@ -92,7 +102,7 @@ std::tuple<int, int> matrix_base<T, dev>::get_dims() const
 {
     return std::make_tuple(nrow, ncol);
 }
-
+#include <iostream>
 template <typename T, MemType dev>
 matrix<T, dev> matrix<T, dev>::operator *(const matrix<T, dev>& other) const
 {

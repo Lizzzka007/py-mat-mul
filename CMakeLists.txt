@@ -1,7 +1,14 @@
 cmake_minimum_required(VERSION 3.19)
-project(MatrixPython)
 
 option(INCLUDE_CUDA "GPU build in mode" OFF)
+option(INCLUDE_OPENMP "OpenMP build in mode" OFF)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+if(INCLUDE_CUDA)
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif(INCLUDE_CUDA)
+
+project(MatrixPython)
 
 enable_language(CXX)
 set(CMAKE_CXX_STANDARD 11)
@@ -39,15 +46,6 @@ set(SOURCES ${SOURCES_CU} ${SOURCES_CXX})
 set(HEADERS ${HEADERS_CXX})
 
 pybind11_add_module(py_mat_mul ${HEADERS} ${SOURCES})
-target_compile_options(py_mat_mul
-            PRIVATE $<$<COMPILE_LANGUAGE:CXX>: -fPIC  >
-    )
-
-if(INCLUDE_CUDA)
-    target_compile_options(py_mat_mul
-        PRIVATE $<$<COMPILE_LANGUAGE:CUDA>: -fPIC  >
-    )
-endif(INCLUDE_CUDA)
 
 target_link_libraries(py_mat_mul PUBLIC matrix)
 set_target_properties(py_mat_mul PROPERTIES

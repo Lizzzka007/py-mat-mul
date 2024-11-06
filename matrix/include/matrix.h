@@ -1,6 +1,6 @@
 #pragma once
 #include <tuple>
-#include "memory-processing.h"
+#include "memory-faucet.h"
 
 template <typename T, MemType dev>
 class matrix_base
@@ -8,7 +8,8 @@ class matrix_base
 public:
     int nrow, ncol;
     size_t allocated_size;
-    T *ptr;
+    T* ptr;
+    memBuf<dev> buf;
     
     matrix_base();
     matrix_base(const int nrow, const int ncol);
@@ -34,6 +35,7 @@ private:
     using matrix_base<T, dev>::ncol;
     using matrix_base<T, dev>::allocated_size;
     using matrix_base<T, dev>::ptr;
+    using matrix_base<T, dev>::buf;
 public:
     matrix() : matrix_base<T, dev>(){}
     matrix(const int nrow, const int ncol) : matrix_base<T, dev>(nrow, ncol){}
@@ -51,6 +53,7 @@ private:
     using matrix_base<T, MemType::GPU>::ncol;
     using matrix_base<T, MemType::GPU>::allocated_size;
     using matrix_base<T, MemType::GPU>::ptr;
+    using matrix_base<T, MemType::GPU>::buf;
 public:
     matrix() : matrix_base<T, MemType::GPU>(){}
     matrix(const int nrow, const int ncol) : matrix_base<T, MemType::GPU>(nrow, ncol){}

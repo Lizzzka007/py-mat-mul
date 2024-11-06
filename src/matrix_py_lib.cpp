@@ -4,7 +4,7 @@
 #include <pybind11/numpy.h>
 
 #include "matrix_lib.h"
-#include "memory-processing.h"
+#include "MemoryProcessing.h"
 
 namespace py = pybind11;
 

@@ -9,11 +9,12 @@ def perfomance_test():
     numpy_times = []
 
     print("Test info: field 'Speedup' is equal to (average numpy computation time) / (average cxx library computation time) ")
-    print("Test are provided for square matrices of size 2^i")
+    print("Tests are provided for square matrices of size 2^i")
     print("CPU performance test start.")
     
     n = 11
-    for step in range(1, n):
+    # for step in range(1, n):
+    for step in range(n, 0, -1):
         square_size = 2**step
         a = np.ndarray(shape=(square_size, square_size), dtype=np.float32)
         b = np.ndarray(shape=(square_size, square_size), dtype=np.float32)
@@ -39,7 +40,8 @@ def perfomance_test():
     if GPU_ENABLED:
         print("GPU performance test start.")
 
-        for step, numpy_time in zip(range(1, n), numpy_times):
+        # for step, numpy_time in zip(range(1, n), numpy_times):
+        for step, numpy_time in zip(range(n, 0, -1), numpy_times):
             square_size = 2**step
             a = np.ndarray(shape=(square_size, square_size), dtype=np.float32)
             b = np.ndarray(shape=(square_size, square_size), dtype=np.float32)

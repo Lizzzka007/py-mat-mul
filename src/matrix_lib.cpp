@@ -1,4 +1,5 @@
 #include "matrix_lib.h"
+#include "MemoryProcessing.h"
 
 template <typename T, MemType dev_run>
 void matrix_lib::mat_mul( pyobj_info& info_A, pyobj_info& info_B, T*& Res_ptr )
